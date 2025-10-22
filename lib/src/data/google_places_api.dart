@@ -131,11 +131,11 @@ class GooglePlacesApi implements PlacesApi {
 
       for (final component in placeDetails.result!.addressComponents!) {
         if (component.types != null && component.types!.contains('locality')) {
-          prediction.city = component.longName;
+          prediction.city = component.longText;
         } else if (component.types != null &&
             component.types!.contains('administrative_area_level_1') &&
             prediction.city == null) {
-          prediction.city = component.longName;
+          prediction.city = component.longText;
         }
       }
 
@@ -143,10 +143,10 @@ class GooglePlacesApi implements PlacesApi {
       String? route;
       for (final component in placeDetails.result!.addressComponents!) {
         if (component.types != null && component.types!.contains('route')) {
-          route = component.longName;
+          route = component.longText;
         } else if (component.types != null &&
             component.types!.contains('street_number')) {
-          streetNumber = component.longName;
+          streetNumber = component.longText;
         }
       }
       if (route != null) {

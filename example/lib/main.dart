@@ -28,15 +28,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _config = GoogleApiConfig(
-    apiKey: 'foo-bar',
-    locationRestriction: LocationConfig.circle(
-      circleCenter: const Coordinates(latitude: 52.5200, longitude: 13.4050),
-      circleRadiusInKilometers: 1000,
-    ),
-    // only needed if you build for the web
-    proxyURL: 'https://your-proxy.com/',
-    placeTypeRestriction: PlaceType.city,
+  final _config = const GoogleApiConfig(
+    apiKey: 'YOUR_GOOGLE_API_KEY',
+    countries: ['bg'],
+    fetchPlaceDetailsWithCoordinates: true,
   );
 
   final _textController = TextEditingController();
@@ -80,6 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: child,
                     ),
                 onPredictionWithCoordinatesReceived: (prediction) {
+                  // print(prediction.city);
+                  // print(prediction.streetAddress);
+                  // print(prediction.lat);
+                  // print(prediction.lng);
                   // Do something with the place details with coordinates
                   //print('placeDetails${prediction.lng}');
                 },
