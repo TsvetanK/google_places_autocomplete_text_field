@@ -129,6 +129,31 @@ class GooglePlacesApi implements PlacesApi {
       prediction.lat = placeDetails.result!.geometry!.location!.lat.toString();
       prediction.lng = placeDetails.result!.geometry!.location!.lng.toString();
 
+      for (final component in placeDetails.result!.addressComponents!) {
+        if (component.types != null && component.types!.contains('locality')) {
+          prediction.city = component.longName;
+        } else if (component.types != null &&
+            component.types!.contains('administrative_area_level_1') &&
+            prediction.city == null) {
+          prediction.city = component.longName;
+        }
+      }
+
+      String? streetNumber;
+      String? route;
+      for (final component in placeDetails.result!.addressComponents!) {
+        if (component.types != null && component.types!.contains('route')) {
+          route = component.longName;
+        } else if (component.types != null &&
+            component.types!.contains('street_number')) {
+          streetNumber = component.longName;
+        }
+      }
+      if (route != null) {
+        prediction.streetAddress =
+            streetNumber != null ? '$streetNumber $route' : route;
+      }
+
       return prediction;
     } on DioException catch (e) {
       if (e.response != null) {
